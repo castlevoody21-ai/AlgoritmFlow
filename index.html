@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>Алгоритм обработки заявки и документов ЗС</title>
+<meta charset="utf-8"/>
+<title>Алгоритмы обработки заявки</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -231,766 +232,880 @@
     .zs-branches::before, .ddu-branches::before { display:none; }
   }
 
+
+
+  /* ══════════ ВЕРТИКАЛЬНАЯ НАВИГАЦИЯ ПО АЛГОРИТМАМ ══════════ */
+  .workflow-layout {
+    display: grid;
+    grid-template-columns: 310px minmax(0, 1fr);
+    gap: 24px;
+    max-width: 1480px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .workflow-nav {
+    position: sticky;
+    top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid #1e2a3a;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #0d1525 0%, #0a111e 100%);
+    box-shadow: 0 20px 50px #00000033;
+  }
+
+  .workflow-nav-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #e2e8f0;
+    letter-spacing: .2px;
+  }
+
+  .workflow-nav-sub {
+    margin: -4px 0 7px;
+    font-size: 10.5px;
+    line-height: 1.4;
+    color: #64748b;
+  }
+
+  .workflow-tab {
+    --tab-color: #64748b;
+    --tab-bg: #111827;
+    width: 100%;
+    min-height: 76px;
+    display: grid;
+    grid-template-columns: 24px 38px minmax(0, 1fr) 16px;
+    gap: 9px;
+    align-items: center;
+    padding: 11px 12px;
+    color: #cbd5e1;
+    text-align: left;
+    border: 1px solid #1e2a3a;
+    border-radius: 13px;
+    background: #0b1321;
+    cursor: pointer;
+    transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    font-family: inherit;
+  }
+
+  .workflow-tab:hover {
+    transform: translateX(3px);
+    border-color: color-mix(in srgb, var(--tab-color) 60%, #1e2a3a);
+    background: color-mix(in srgb, var(--tab-bg) 75%, #0b1321);
+  }
+
+  .workflow-tab.active {
+    border-color: var(--tab-color);
+    background: linear-gradient(135deg, var(--tab-bg), #0b1321 78%);
+    box-shadow: inset 3px 0 0 var(--tab-color), 0 10px 24px #0000002e;
+  }
+
+  .workflow-tab-number {
+    font-size: 9px;
+    font-weight: 800;
+    color: #475569;
+    align-self: start;
+    padding-top: 4px;
+  }
+
+  .workflow-tab.active .workflow-tab-number { color: var(--tab-color); }
+
+  .workflow-tab-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 18px;
+    background: color-mix(in srgb, var(--tab-color) 17%, transparent);
+  }
+
+  .workflow-tab-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .workflow-tab-name {
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 800;
+    color: #e2e8f0;
+  }
+
+  .workflow-tab.active .workflow-tab-name { color: color-mix(in srgb, var(--tab-color) 60%, white); }
+
+  .workflow-tab-desc {
+    font-size: 9.7px;
+    line-height: 1.35;
+    color: #64748b;
+  }
+
+  .workflow-tab-chevron {
+    font-size: 22px;
+    color: #334155;
+    transition: transform .16s ease, color .16s ease;
+  }
+
+  .workflow-tab.active .workflow-tab-chevron {
+    color: var(--tab-color);
+    transform: translateX(2px);
+  }
+
+  .tone-green  { --tab-color: #22c55e; --tab-bg: #10271a; }
+  .tone-blue   { --tab-color: #3b82f6; --tab-bg: #132744; }
+  .tone-amber  { --tab-color: #f59e0b; --tab-bg: #2a1c08; }
+  .tone-purple { --tab-color: #a855f7; --tab-bg: #241137; }
+
+  .workflow-content { min-width: 0; }
+  .workflow-panel { width: 100%; animation: panelIn .22s ease both; }
+  .workflow-panel[hidden] { display: none !important; }
+  .workflow-panel > .col-card,
+  .workflow-panel > .zs-section,
+  .workflow-panel > .ddu-card { width: 100%; }
+
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 980px) {
+    .workflow-layout { grid-template-columns: 1fr; max-width: 920px; }
+    .workflow-nav {
+      position: static;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .workflow-nav-title, .workflow-nav-sub { grid-column: 1 / -1; }
+    .workflow-tab:hover { transform: translateY(-2px); }
+    .workflow-tab-chevron { transform: rotate(90deg); }
+    .workflow-tab.active .workflow-tab-chevron { transform: rotate(90deg) translateX(2px); }
+  }
+
+  @media (max-width: 620px) {
+    body { padding: 20px 12px 30px; }
+    .page-header { margin-bottom: 22px; }
+    .workflow-nav { grid-template-columns: 1fr; padding: 13px; }
+    .workflow-tab { min-height: 68px; }
+    .workflow-tab-desc { display: none; }
+  }
 </style>
 </head>
 <body>
-
 <div class="page-header">
-  <h1>Алгоритм обработки заявки и документов ЗС</h1>
-  <div class="accent-line"></div>
+<h1>Алгоритм обработки заявки и документов ЗС</h1>
+<div class="accent-line"></div>
 </div>
-
 <div class="doc-date-note">
-  <div class="doc-date-note-icon">📅</div>
-  <div>
-    <div class="doc-date-note-title">Дата предоставления документов</div>
-    <div class="doc-date-note-text"><b>Дата предоставления документов = дата, когда агент прислал в чат полный пакет документов.</b> Реквизиты не входят в полный пакет документов и не влияют на эту дату.</div>
-  </div>
+<div class="doc-date-note-icon">📅</div>
+<div>
+<div class="doc-date-note-title">Дата предоставления документов</div>
+<div class="doc-date-note-text"><b>Дата предоставления документов = дата, когда агент прислал в чат полный пакет документов.</b> Реквизиты не входят в полный пакет документов и не влияют на эту дату.</div>
 </div>
-
-<div class="grid">
-
-<!-- ══════════ БРОНИ ══════════ -->
-<div class="col-card">
-  <div class="col-head blue">
-    <div class="col-head-icon">🏠</div>
-    <div class="col-head-text">
-      <div class="title">По броням</div>
-      <div class="sub">Сделка · Уточнение статуса</div>
-    </div>
-  </div>
-  <div class="flow-body">
-
-    <div class="node ns-start">
-      <div class="node-icon">📌</div>
-      <div class="node-title">Сделка: уточнение статуса у агента</div>
-    </div>
-    <div class="vc"></div>
-    <div class="node ns-chat">
-      <div class="node-icon">💬</div>
-      <div class="node-title">Сообщение в чат</div>
-      <div class="node-sub">Уточняем известна ли дата сделки? Актуализируем заявку</div>
-    </div>
-    <div class="vc"></div>
-    <div class="timer-pill">⏱ Таймер: 7 дней (дата неизвестна)</div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">Есть ответ?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="deal-action">
-          <div class="deal-subgrid">
-            <div class="deal-sub"><div class="ab-icon">🗓️</div>Если дата сделки известна,<br>таймер на эту дату,<br>напоминаем про необходимые доки</div>
-            <div class="deal-sub"><div class="ab-icon">🎉</div>Если сделка прошла,<br>поздравляем и напоминаем про необходимые доки,<br>дальше действуем по стандартному флоу</div>
-          </div>
-        </div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ Нет</span>
-        <div class="b-timer">⏱ Ещё 7 дней</div>
-      </div>
-    </div>
-
-    <div class="branch-to-next"></div>
-    <div class="node ns-call">
-      <div class="node-icon">📞</div>
-      <div class="node-title">Звонок агенту</div>
-    </div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">Дозвон?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="deal-action">
-          <div class="deal-subgrid">
-            <div class="deal-sub"><div class="ab-icon">🗓️</div>Если дата сделки известна,<br>таймер на эту дату,<br>напоминаем про необходимые доки</div>
-            <div class="deal-sub"><div class="ab-icon">🎉</div>Если сделка прошла,<br>поздравляем и напоминаем про необходимые доки,<br>дальше действуем по стандартному флоу</div>
-          </div>
-        </div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ Нет</span>
-      </div>
-    </div>
-
-    <div class="branch-to-next"></div>
-    <div class="node ns-warn">
-      <div class="node-icon">📋</div>
-      <div class="node-title">Недозвон — эскалация</div>
-      <div class="node-sub">Пишем в чат · Задача → <strong>АСД</strong></div>
-    </div>
-    <div class="vc"></div>
-    <div class="timer-pill">⏱ Таймер: 1 месяц</div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">АСД ответил?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="deal-action">
-          <div class="deal-subgrid">
-            <div class="deal-sub"><div class="ab-icon">🗓️</div>Если дата сделки известна,<br>таймер на эту дату,<br>напоминаем про необходимые доки</div>
-            <div class="deal-sub"><div class="ab-icon">🎉</div>Если сделка прошла,<br>поздравляем и напоминаем про необходимые доки,<br>дальше действуем по стандартному флоу</div>
-          </div>
-        </div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ Тишина</span>
-      </div>
-    </div>
-
-    <div class="branch-to-next"></div>
-    <div class="node ns-danger">
-      <div class="node-icon">🔴</div>
-      <div class="node-title">УЛЬТРА КОНТРОЛЬНЫЙ ЗВОНОК</div>
-    </div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">Дозвон / ответ?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="deal-action">
-          <div class="deal-subgrid">
-            <div class="deal-sub"><div class="ab-icon">🗓️</div>Если дата сделки известна,<br>таймер на эту дату,<br>напоминаем про необходимые доки</div>
-            <div class="deal-sub"><div class="ab-icon">🎉</div>Если сделка прошла,<br>поздравляем и напоминаем про необходимые доки,<br>дальше действуем по стандартному флоу</div>
-          </div>
-        </div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ Нет</span>
-        <div class="ab ab-close"><div class="ab-icon">🔒</div>Заявка закрыта<br><span style="font-size:9.5px;font-weight:500;opacity:.85">Сообщение в чат о закрытии заявки</span></div>
-      </div>
-    </div>
-
-  </div>
 </div>
-
-<!-- ══════════ ФИКСАЦИЯ ══════════ -->
-<div class="col-card">
-  <div class="col-head green">
-    <div class="col-head-icon">📋</div>
-    <div class="col-head-text">
-      <div class="title">Фиксация</div>
-      <div class="sub">Переход в бронь · Статус</div>
-    </div>
-  </div>
-  <div class="flow-body">
-
-    <div class="node ns-start-g">
-      <div class="node-icon">📌</div>
-      <div class="node-title">Фиксация: уточнение статуса заявки у агента</div>
-    </div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#001a00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">Есть фиксация у ЗС?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="b-timer" style="color:#86efac;border-color:#22c55e44">⏱ До срока завершения фиксации</div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ Нет</span>
-        <div class="b-timer">⏱ 7 дней</div>
-      </div>
-    </div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#001a00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">Перешёл в бронь?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="ab ab-action"><div class="ab-icon">➡️</div>Идём по флоу<br>бронирования</div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ Нет</span>
-      </div>
-    </div>
-
-    <div class="branch-to-next"></div>
-    <div class="node ns-call">
-      <div class="node-icon">📞</div>
-      <div class="node-title">Звонок через реестр</div>
-    </div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#001a00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">Дозвон?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="ab ab-reg"><div class="ab-icon">🏠</div>Уточняем статус заявки<br>Подсвечиваем выгоду<br>Актуализируем заявку<br>Вносим информацию в реестр</div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ Нет</span>
-      </div>
-    </div>
-
-    <div class="branch-to-next"></div>
-    <div class="node ns-warn">
-      <div class="node-icon">📅</div>
-      <div class="node-title">Недозвон 1</div>
-      <div class="node-sub">Таймер на следующий день</div>
-    </div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#001a00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">Дозвон?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="ab ab-action"><div class="ab-icon">✏️</div>Уточняем статус заявки<br>Подсвечиваем выгоду<br>Актуализируем заявку<br>Вносим информацию в реестр</div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ 2-й недозвон</span>
-      </div>
-    </div>
-
-    <div class="branch-to-next"></div>
-    <div class="node ns-chat">
-      <div class="node-icon">💬</div>
-      <div class="node-title">2-й недозвон</div>
-      <div class="node-sub">Сообщение в чат агенту</div>
-    </div>
-    <div class="vc"></div>
-    <div class="timer-pill" style="color:#c4b5fd;border-color:#7c3aed44">⏱ Таймер: до окончания срока фиксации</div>
-    <div class="vc red"></div>
-
-    <div class="node ns-danger">
-      <div class="node-icon">🔴</div>
-      <div class="node-title">УЛЬТРА КОНТРОЛЬНЫЙ ЗВОНОК</div>
-      <div class="node-sub">По окончании срока фиксации</div>
-    </div>
-    <div class="vc"></div>
-
-    <div class="diamond-wrap">
-      <svg viewBox="0 0 160 66"><polygon points="80,3 157,33 80,63 3,33" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="diamond-label">Дозвон?</div>
-    </div>
-    <div class="split">
-      <div class="split-bar"></div>
-      <div class="split-side">
-        <div class="split-vline yes"></div>
-        <span class="b-tag b-yes">✓ Да</span>
-        <div class="ab ab-action"><div class="ab-icon">✏️</div>Уточняем статус заявки<br>Подсвечиваем выгоду<br>Актуализируем заявку<br>Вносим информацию в реестр</div>
-      </div>
-      <div class="split-side">
-        <div class="split-vline no"></div>
-        <span class="b-tag b-no">✗ Нет</span>
-        <div class="ab ab-close"><div class="ab-icon">🔒</div>Закрытие заявки<br><span style="font-size:9.5px;font-weight:500;opacity:.85">Сообщение в чат о закрытии заявки</span></div>
-      </div>
-    </div>
-
-  </div>
+<div class="workflow-layout" id="workflow"><nav aria-label="Алгоритмы обработки заявки" class="workflow-nav"><div class="workflow-nav-title">Выберите алгоритм</div><div class="workflow-nav-sub">Раздел откроется справа с первого шага</div><button aria-controls="panel-fixation" aria-selected="true" class="workflow-tab tone-green active" data-target="fixation" id="tab-fixation" role="tab" type="button"><span class="workflow-tab-number">01</span><span class="workflow-tab-icon">📋</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Фиксация</span><span class="workflow-tab-desc">Переход в бронь и актуализация статуса</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-booking" aria-selected="false" class="workflow-tab tone-blue" data-target="booking" id="tab-booking" role="tab" type="button"><span class="workflow-tab-number">02</span><span class="workflow-tab-icon">🏠</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Бронирование</span><span class="workflow-tab-desc">Уточнение статуса сделки</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-documents" aria-selected="false" class="workflow-tab tone-amber" data-target="documents" id="tab-documents" role="tab" type="button"><span class="workflow-tab-number">03</span><span class="workflow-tab-icon">📄</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Документы для закрытия с ЗС</span><span class="workflow-tab-desc">Запрос и контроль полного пакета</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-transfer" aria-selected="false" class="workflow-tab tone-purple" data-target="transfer" id="tab-transfer" role="tab" type="button"><span class="workflow-tab-number">04</span><span class="workflow-tab-icon">🔎</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Передача полного пакета</span><span class="workflow-tab-desc">Участники ДДУ, объединение и проверка дублей</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button></nav><main class="workflow-content"><section aria-labelledby="tab-fixation" class="workflow-panel" data-panel="fixation" id="panel-fixation" role="tabpanel"><div class="col-card">
+<div class="col-head green">
+<div class="col-head-icon">📋</div>
+<div class="col-head-text">
+<div class="title">Фиксация</div>
+<div class="sub">Переход в бронь · Статус</div>
 </div>
-
-
-<!-- ══════════ ДОКУМЕНТЫ ДЛЯ ЗС ══════════ -->
-<div class="zs-section">
-  <div class="zs-card">
-    <div class="zs-head">
-      <div class="zs-head-icon">📄</div>
-      <div class="zs-head-text">
-        <div class="title">Доп. документы для закрытия с ЗС</div>
-        <div class="sub">Документы для выплаты КВ и закрытия сделки с застройщиком</div>
-      </div>
-    </div>
-
-    <div class="zs-body">
-      <div class="zs-important">
-        <div class="zs-important-icon">⚠️</div>
-        <div>
-          <div class="zs-important-title">Важно</div>
-          <div class="zs-important-text">
+</div>
+<div class="flow-body">
+<div class="node ns-start-g">
+<div class="node-icon">📌</div>
+<div class="node-title">Фиксация: уточнение статуса заявки у агента</div>
+</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#001a00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">Есть фиксация у ЗС?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="b-timer" style="color:#86efac;border-color:#22c55e44">⏱ До срока завершения фиксации</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ Нет</span>
+<div class="b-timer">⏱ 7 дней</div>
+</div>
+</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#001a00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">Перешёл в бронь?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="ab ab-action"><div class="ab-icon">➡️</div>Идём по флоу<br/>бронирования</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ Нет</span>
+</div>
+</div>
+<div class="branch-to-next"></div>
+<div class="node ns-call">
+<div class="node-icon">📞</div>
+<div class="node-title">Звонок через реестр</div>
+</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#001a00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">Дозвон?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="ab ab-reg"><div class="ab-icon">🏠</div>Уточняем статус заявки<br/>Подсвечиваем выгоду<br/>Актуализируем заявку<br/>Вносим информацию в реестр</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ Нет</span>
+</div>
+</div>
+<div class="branch-to-next"></div>
+<div class="node ns-warn">
+<div class="node-icon">📅</div>
+<div class="node-title">Недозвон 1</div>
+<div class="node-sub">Таймер на следующий день</div>
+</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#001a00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">Дозвон?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="ab ab-action"><div class="ab-icon">✏️</div>Уточняем статус заявки<br/>Подсвечиваем выгоду<br/>Актуализируем заявку<br/>Вносим информацию в реестр</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ 2-й недозвон</span>
+</div>
+</div>
+<div class="branch-to-next"></div>
+<div class="node ns-chat">
+<div class="node-icon">💬</div>
+<div class="node-title">2-й недозвон</div>
+<div class="node-sub">Сообщение в чат агенту</div>
+</div>
+<div class="vc"></div>
+<div class="timer-pill" style="color:#c4b5fd;border-color:#7c3aed44">⏱ Таймер: до окончания срока фиксации</div>
+<div class="vc red"></div>
+<div class="node ns-danger">
+<div class="node-icon">🔴</div>
+<div class="node-title">УЛЬТРА КОНТРОЛЬНЫЙ ЗВОНОК</div>
+<div class="node-sub">По окончании срока фиксации</div>
+</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#120f00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">Дозвон?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="ab ab-action"><div class="ab-icon">✏️</div>Уточняем статус заявки<br/>Подсвечиваем выгоду<br/>Актуализируем заявку<br/>Вносим информацию в реестр</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ Нет</span>
+<div class="ab ab-close"><div class="ab-icon">🔒</div>Закрытие заявки<br/><span style="font-size:9.5px;font-weight:500;opacity:.85">Сообщение в чат о закрытии заявки</span></div>
+</div>
+</div>
+</div>
+</div></section><section aria-labelledby="tab-booking" class="workflow-panel" data-panel="booking" hidden="" id="panel-booking" role="tabpanel"><div class="col-card">
+<div class="col-head blue">
+<div class="col-head-icon">🏠</div>
+<div class="col-head-text">
+<div class="title">Бронирование</div>
+<div class="sub">Сделка · Уточнение статуса</div>
+</div>
+</div>
+<div class="flow-body">
+<div class="node ns-start">
+<div class="node-icon">📌</div>
+<div class="node-title">Сделка: уточнение статуса у агента</div>
+</div>
+<div class="vc"></div>
+<div class="node ns-chat">
+<div class="node-icon">💬</div>
+<div class="node-title">Сообщение в чат</div>
+<div class="node-sub">Уточняем известна ли дата сделки? Актуализируем заявку</div>
+</div>
+<div class="vc"></div>
+<div class="timer-pill">⏱ Таймер: 7 дней (дата неизвестна)</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#120f00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">Есть ответ?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="deal-action">
+<div class="deal-subgrid">
+<div class="deal-sub"><div class="ab-icon">🗓️</div>Если дата сделки известна,<br/>таймер на эту дату,<br/>напоминаем про необходимые доки</div>
+<div class="deal-sub"><div class="ab-icon">🎉</div>Если сделка прошла,<br/>поздравляем и напоминаем про необходимые доки,<br/>дальше действуем по стандартному флоу</div>
+</div>
+</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ Нет</span>
+<div class="b-timer">⏱ Ещё 7 дней</div>
+</div>
+</div>
+<div class="branch-to-next"></div>
+<div class="node ns-call">
+<div class="node-icon">📞</div>
+<div class="node-title">Звонок агенту</div>
+</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#120f00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">Дозвон?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="deal-action">
+<div class="deal-subgrid">
+<div class="deal-sub"><div class="ab-icon">🗓️</div>Если дата сделки известна,<br/>таймер на эту дату,<br/>напоминаем про необходимые доки</div>
+<div class="deal-sub"><div class="ab-icon">🎉</div>Если сделка прошла,<br/>поздравляем и напоминаем про необходимые доки,<br/>дальше действуем по стандартному флоу</div>
+</div>
+</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ Нет</span>
+</div>
+</div>
+<div class="branch-to-next"></div>
+<div class="node ns-warn">
+<div class="node-icon">📋</div>
+<div class="node-title">Недозвон — эскалация</div>
+<div class="node-sub">Пишем в чат · Задача → <strong>АСД</strong></div>
+</div>
+<div class="vc"></div>
+<div class="timer-pill">⏱ Таймер: 1 месяц</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#120f00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">АСД ответил?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="deal-action">
+<div class="deal-subgrid">
+<div class="deal-sub"><div class="ab-icon">🗓️</div>Если дата сделки известна,<br/>таймер на эту дату,<br/>напоминаем про необходимые доки</div>
+<div class="deal-sub"><div class="ab-icon">🎉</div>Если сделка прошла,<br/>поздравляем и напоминаем про необходимые доки,<br/>дальше действуем по стандартному флоу</div>
+</div>
+</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ Тишина</span>
+</div>
+</div>
+<div class="branch-to-next"></div>
+<div class="node ns-danger">
+<div class="node-icon">🔴</div>
+<div class="node-title">УЛЬТРА КОНТРОЛЬНЫЙ ЗВОНОК</div>
+</div>
+<div class="vc"></div>
+<div class="diamond-wrap">
+<svg viewbox="0 0 160 66"><polygon fill="#120f00" points="80,3 157,33 80,63 3,33" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="diamond-label">Дозвон / ответ?</div>
+</div>
+<div class="split">
+<div class="split-bar"></div>
+<div class="split-side">
+<div class="split-vline yes"></div>
+<span class="b-tag b-yes">✓ Да</span>
+<div class="deal-action">
+<div class="deal-subgrid">
+<div class="deal-sub"><div class="ab-icon">🗓️</div>Если дата сделки известна,<br/>таймер на эту дату,<br/>напоминаем про необходимые доки</div>
+<div class="deal-sub"><div class="ab-icon">🎉</div>Если сделка прошла,<br/>поздравляем и напоминаем про необходимые доки,<br/>дальше действуем по стандартному флоу</div>
+</div>
+</div>
+</div>
+<div class="split-side">
+<div class="split-vline no"></div>
+<span class="b-tag b-no">✗ Нет</span>
+<div class="ab ab-close"><div class="ab-icon">🔒</div>Заявка закрыта<br/><span style="font-size:9.5px;font-weight:500;opacity:.85">Сообщение в чат о закрытии заявки</span></div>
+</div>
+</div>
+</div>
+</div></section><section aria-labelledby="tab-documents" class="workflow-panel" data-panel="documents" hidden="" id="panel-documents" role="tabpanel"><div class="zs-section">
+<div class="zs-card">
+<div class="zs-head">
+<div class="zs-head-icon">📄</div>
+<div class="zs-head-text">
+<div class="title">Документы для закрытия с ЗС</div>
+<div class="sub">Документы для выплаты КВ и закрытия сделки с застройщиком</div>
+</div>
+</div>
+<div class="zs-body">
+<div class="zs-important">
+<div class="zs-important-icon">⚠️</div>
+<div>
+<div class="zs-important-title">Важно</div>
+<div class="zs-important-text">
             Если документов хватает для выплаты КВ, но не хватает для закрытия с ЗС — выплату КВ не блокируем. Заявку передаем на оплату, а недостающий документ продолжаем дожимать параллельно.
           </div>
-        </div>
-      </div>
-
-      <div class="zs-flow">
-        <div class="zs-step zs-start">
-          <div class="zs-step-top">
-            <div class="zs-step-icon">📌</div>
-            <div>
-              <div class="zs-step-title">Первично запрашиваем у агента полный пакет документов</div>
-              <div class="zs-step-sub">Сразу отправляем список документов, которые нужны и для выплаты КВ, и для закрытия сделки с ЗС: акт, направление и другие документы по условиям застройщика.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-decision">
-          <svg viewBox="0 0 180 74"><polygon points="90,3 177,37 90,71 3,37" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-          <div class="zs-decision-label">Пакета хватает для выплаты КВ?</div>
-        </div>
-
-        <div class="zs-branches">
-          <div class="zs-branch">
-            <div class="zs-branch-line yes"></div>
-            <div class="zs-mini-card yes">
-              <span class="zs-mini-title yes">✓ Да</span><br>
+</div>
+</div>
+<div class="zs-flow">
+<div class="zs-step zs-start">
+<div class="zs-step-top">
+<div class="zs-step-icon">📌</div>
+<div>
+<div class="zs-step-title">Первично запрашиваем у агента полный пакет документов</div>
+<div class="zs-step-sub">Сразу отправляем список документов, которые нужны и для выплаты КВ, и для закрытия сделки с ЗС: акт, направление и другие документы по условиям застройщика.</div>
+</div>
+</div>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-decision">
+<svg viewbox="0 0 180 74"><polygon fill="#120f00" points="90,3 177,37 90,71 3,37" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="zs-decision-label">Пакета хватает для выплаты КВ?</div>
+</div>
+<div class="zs-branches">
+<div class="zs-branch">
+<div class="zs-branch-line yes"></div>
+<div class="zs-mini-card yes">
+<span class="zs-mini-title yes">✓ Да</span><br/>
               Передаем заявку коллегам для оплаты КВ.
             </div>
-          </div>
-          <div class="zs-branch">
-            <div class="zs-branch-line no"></div>
-            <div class="zs-mini-card no">
-              <span class="zs-mini-title no">✗ Нет</span><br>
+</div>
+<div class="zs-branch">
+<div class="zs-branch-line no"></div>
+<div class="zs-mini-card no">
+<span class="zs-mini-title no">✗ Нет</span><br/>
               Работаем по стандартному флоу запроса документов до получения пакета для оплаты.
             </div>
-          </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-step zs-pay">
-          <div class="zs-step-top">
-            <div class="zs-step-icon">💸</div>
-            <div>
-              <div class="zs-step-title">Документов хватает для выплаты КВ, но не хватает для закрытия с ЗС</div>
-              <div class="zs-step-sub">Агенту пишем, что пакет достаточен для оплаты, но для закрытия с застройщиком нужен недостающий документ.</div>
-            </div>
-          </div>
-          <div class="zs-message">
-            Для выплаты вознаграждения документов достаточно и мы уже взяли их в работу👌<br>
-            Но для закрытия с Застройщиком необходим еще — <strong>«Документ»</strong>, просьба прислать его в чат.<br><br>
-            Скоро отправим на согласование застройщику: обычно 3–5 дней, но если будет шанс ускорить, мы это сделаем.<br><br>
+</div>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-step zs-pay">
+<div class="zs-step-top">
+<div class="zs-step-icon">💸</div>
+<div>
+<div class="zs-step-title">Документов хватает для выплаты КВ, но не хватает для закрытия с ЗС</div>
+<div class="zs-step-sub">Агенту пишем, что пакет достаточен для оплаты, но для закрытия с застройщиком нужен недостающий документ.</div>
+</div>
+</div>
+<div class="zs-message">
+            Для выплаты вознаграждения документов достаточно и мы уже взяли их в работу👌<br/>
+            Но для закрытия с Застройщиком необходим еще — <strong>«Документ»</strong>, просьба прислать его в чат.<br/><br/>
+            Скоро отправим на согласование застройщику: обычно 3–5 дней, но если будет шанс ускорить, мы это сделаем.<br/><br/>
             Если что-то не так, мы вам сообщим.
           </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-step zs-task">
-          <div class="zs-step-top">
-            <div class="zs-step-icon">🧩</div>
-            <div>
-              <div class="zs-step-title">Создаем две задачи</div>
-              <div class="zs-step-sub">Одна задача создается автоматически по ризону, вторая — ручная контрольная задача на запрос недостающего документа.</div>
-            </div>
-          </div>
-          <div class="zs-task-grid">
-            <div class="zs-task-box">
-              <strong>Сделка: согласование вознаграждения с ЗС</strong>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-step zs-task">
+<div class="zs-step-top">
+<div class="zs-step-icon">🧩</div>
+<div>
+<div class="zs-step-title">Создаем две задачи</div>
+<div class="zs-step-sub">Одна задача создается автоматически по ризону, вторая — ручная контрольная задача на запрос недостающего документа.</div>
+</div>
+</div>
+<div class="zs-task-grid">
+<div class="zs-task-box">
+<strong>Сделка: согласование вознаграждения с ЗС</strong>
               Создается автоматически по ризону и передается на вторую линию.
             </div>
-            <div class="zs-task-box">
-              <strong>Бронирование: запрос документов у агента</strong>
+<div class="zs-task-box">
+<strong>Бронирование: запрос документов у агента</strong>
               Создаем вручную со сроком через 1 неделю.
             </div>
-          </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-decision">
-          <svg viewBox="0 0 180 74"><polygon points="90,3 177,37 90,71 3,37" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-          <div class="zs-decision-label">Через неделю документ пришел?</div>
-        </div>
-
-        <div class="zs-branches">
-          <div class="zs-branch">
-            <div class="zs-branch-line yes"></div>
-            <div class="zs-mini-card yes">
-              <span class="zs-mini-title yes">✓ Да</span><br>
+</div>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-decision">
+<svg viewbox="0 0 180 74"><polygon fill="#120f00" points="90,3 177,37 90,71 3,37" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="zs-decision-label">Через неделю документ пришел?</div>
+</div>
+<div class="zs-branches">
+<div class="zs-branch">
+<div class="zs-branch-line yes"></div>
+<div class="zs-mini-card yes">
+<span class="zs-mini-title yes">✓ Да</span><br/>
               Передаем документ по нужному флоу и закрываем ручную задачу «Бронирование: запрос документов у агента» как ошибочную.
             </div>
-          </div>
-          <div class="zs-branch">
-            <div class="zs-branch-line no"></div>
-            <div class="zs-mini-card no">
-              <span class="zs-mini-title no">✗ Нет</span><br>
+</div>
+<div class="zs-branch">
+<div class="zs-branch-line no"></div>
+<div class="zs-mini-card no">
+<span class="zs-mini-title no">✗ Нет</span><br/>
               Берем задачу в работу и звоним агенту.
             </div>
-          </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-step zs-call">
-          <div class="zs-step-top">
-            <div class="zs-step-icon">📞</div>
-            <div>
-              <div class="zs-step-title">Звонок агенту по недостающему документу</div>
-              <div class="zs-step-sub">Напоминаем, какой документ нужен для закрытия с ЗС, и фиксируем дальнейшие действия.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-decision">
-          <svg viewBox="0 0 180 74"><polygon points="90,3 177,37 90,71 3,37" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-          <div class="zs-decision-label">Дозвонились?</div>
-        </div>
-
-        <div class="zs-branches">
-          <div class="zs-branch">
-            <div class="zs-branch-line yes"></div>
-            <div class="zs-mini-card yes">
-              <span class="zs-mini-title yes">✓ Да</span><br>
+</div>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-step zs-call">
+<div class="zs-step-top">
+<div class="zs-step-icon">📞</div>
+<div>
+<div class="zs-step-title">Звонок агенту по недостающему документу</div>
+<div class="zs-step-sub">Напоминаем, какой документ нужен для закрытия с ЗС, и фиксируем дальнейшие действия.</div>
+</div>
+</div>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-decision">
+<svg viewbox="0 0 180 74"><polygon fill="#120f00" points="90,3 177,37 90,71 3,37" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="zs-decision-label">Дозвонились?</div>
+</div>
+<div class="zs-branches">
+<div class="zs-branch">
+<div class="zs-branch-line yes"></div>
+<div class="zs-mini-card yes">
+<span class="zs-mini-title yes">✓ Да</span><br/>
               Берем конкретный срок, фиксируем договоренности в чате и переносим задачу на согласованную дату.
             </div>
-          </div>
-          <div class="zs-branch">
-            <div class="zs-branch-line no"></div>
-            <div class="zs-mini-card no">
-              <span class="zs-mini-title no">✗ Нет</span><br>
+</div>
+<div class="zs-branch">
+<div class="zs-branch-line no"></div>
+<div class="zs-mini-card no">
+<span class="zs-mini-title no">✗ Нет</span><br/>
               Переносим задачу на 2 часа и звоним повторно.
             </div>
-          </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-decision">
-          <svg viewBox="0 0 180 74"><polygon points="90,3 177,37 90,71 3,37" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-          <div class="zs-decision-label">После повторного звонка есть ответ?</div>
-        </div>
-
-        <div class="zs-branches">
-          <div class="zs-branch">
-            <div class="zs-branch-line yes"></div>
-            <div class="zs-mini-card yes">
-              <span class="zs-mini-title yes">✓ Да</span><br>
+</div>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-decision">
+<svg viewbox="0 0 180 74"><polygon fill="#120f00" points="90,3 177,37 90,71 3,37" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="zs-decision-label">После повторного звонка есть ответ?</div>
+</div>
+<div class="zs-branches">
+<div class="zs-branch">
+<div class="zs-branch-line yes"></div>
+<div class="zs-mini-card yes">
+<span class="zs-mini-title yes">✓ Да</span><br/>
               Возвращаемся к сценарию «Дозвонились»: срок, фиксация в чате, перенос задачи.
             </div>
-          </div>
-          <div class="zs-branch">
-            <div class="zs-branch-line no"></div>
-            <div class="zs-mini-card no">
-              <span class="zs-mini-title no">✗ Нет</span><br>
+</div>
+<div class="zs-branch">
+<div class="zs-branch-line no"></div>
+<div class="zs-mini-card no">
+<span class="zs-mini-title no">✗ Нет</span><br/>
               Запрашиваем документ в чат и ставим задачу через 3 дня.
             </div>
-          </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-step zs-warn">
-          <div class="zs-step-top">
-            <div class="zs-step-icon">💬</div>
-            <div>
-              <div class="zs-step-title">Запрос документа в чат</div>
-              <div class="zs-step-sub">Пишем агенту, какой документ нужен для закрытия с ЗС, и ставим контроль через 3 дня.</div>
-            </div>
-          </div>
-          <div class="zs-message">
-            Не смогли до Вас дозвониться и напоминаем:<br>
-            Для закрытия сделки с застройщиком нам не хватает документа: <strong>[указать документ]</strong>.<br>
-            Просьба направить документ в чат.<br>
+</div>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-step zs-warn">
+<div class="zs-step-top">
+<div class="zs-step-icon">💬</div>
+<div>
+<div class="zs-step-title">Запрос документа в чат</div>
+<div class="zs-step-sub">Пишем агенту, какой документ нужен для закрытия с ЗС, и ставим контроль через 3 дня.</div>
+</div>
+</div>
+<div class="zs-message">
+            Не смогли до Вас дозвониться и напоминаем:<br/>
+            Для закрытия сделки с застройщиком нам не хватает документа: <strong>[указать документ]</strong>.<br/>
+            Просьба направить документ в чат.<br/>
             Без него мы не сможем закрыть сделку с ЗС.
           </div>
-          <div class="zs-timer-row">
-            <div class="zs-timer">⏱ Контроль через 3 дня</div>
-          </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-decision">
-          <svg viewBox="0 0 180 74"><polygon points="90,3 177,37 90,71 3,37" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-          <div class="zs-decision-label">Через 3 дня агент ответил?</div>
-        </div>
-
-        <div class="zs-final-row">
-          <div class="zs-mini-card yes">
-            <span class="zs-mini-title yes">✓ Да</span><br>
+<div class="zs-timer-row">
+<div class="zs-timer">⏱ Контроль через 3 дня</div>
+</div>
+</div>
+<div class="zs-arrow"></div>
+<div class="zs-decision">
+<svg viewbox="0 0 180 74"><polygon fill="#120f00" points="90,3 177,37 90,71 3,37" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="zs-decision-label">Через 3 дня агент ответил?</div>
+</div>
+<div class="zs-final-row">
+<div class="zs-mini-card yes">
+<span class="zs-mini-title yes">✓ Да</span><br/>
             Ориентируемся на сроки в ответе агента и переносим задачу на указанную дату.
           </div>
-          <div class="zs-mini-card no">
-            <span class="zs-mini-title no">✗ Нет</span><br>
+<div class="zs-mini-card no">
+<span class="zs-mini-title no">✗ Нет</span><br/>
             Передаем агента на <b>АСД через тред</b>, не через файл. Тред обязательно отображаем в истории заявки.
           </div>
-        </div>
-
-        <div class="zs-arrow"></div>
-
-        <div class="zs-step zs-danger">
-          <div class="zs-step-top">
-            <div class="zs-step-icon">🔴</div>
-            <div>
-              <div class="zs-step-title">После передачи на АСД</div>
-              <div class="zs-step-sub">Фиксируем тред в истории заявки и переносим задачу еще на 1 неделю для повторной проверки статуса.</div>
-            </div>
-          </div>
-          <div class="zs-timer-row">
-            <div class="zs-timer">⏱ Следующий контроль через 1 неделю</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
 </div>
-
-
-<!-- ══════════ ПЕРЕДАЧА ПОЛНОГО ПАКЕТА НА 2 ЛИНИЮ И ПРОВЕРКА ДДУ ══════════ -->
-<div class="ddu-card">
-  <div class="ddu-head">
-    <div class="ddu-head-icon">🔎</div>
-    <div class="ddu-head-text">
-      <div class="title">Передача полного пакета на 2 линию и проверка ДДУ</div>
-      <div class="sub">Участники сделки · Объединение заявок · Проверка дублей</div>
-    </div>
-  </div>
-
-  <div class="ddu-body">
-    <div class="ddu-rule">
-      <b>Полный пакет считается предоставленным в дату отправки документов агентом в чат.</b><br>
+<div class="zs-arrow"></div>
+<div class="zs-step zs-danger">
+<div class="zs-step-top">
+<div class="zs-step-icon">🔴</div>
+<div>
+<div class="zs-step-title">После передачи на АСД</div>
+<div class="zs-step-sub">Фиксируем тред в истории заявки и переносим задачу еще на 1 неделю для повторной проверки статуса.</div>
+</div>
+</div>
+<div class="zs-timer-row">
+<div class="zs-timer">⏱ Следующий контроль через 1 неделю</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></section><section aria-labelledby="tab-transfer" class="workflow-panel" data-panel="transfer" hidden="" id="panel-transfer" role="tabpanel"><div class="ddu-card">
+<div class="ddu-head">
+<div class="ddu-head-icon">🔎</div>
+<div class="ddu-head-text">
+<div class="title">Передача полного пакета</div>
+<div class="sub">Участники сделки · Объединение заявок · Проверка дублей</div>
+</div>
+</div>
+<div class="ddu-body">
+<div class="ddu-rule">
+<b>Полный пакет считается предоставленным в дату отправки документов агентом в чат.</b><br/>
       Реквизиты в полный пакет не входят.
     </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-step start">
-      <div class="ddu-step-top">
-        <div class="ddu-step-icon">📄</div>
-        <div>
-          <div class="ddu-step-title">В заявку поступил ДДУ</div>
-          <div class="ddu-step-sub">Открываем документ и проверяем количество участников, указанных в ДДУ.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-decision">
-      <svg viewBox="0 0 184 76"><polygon points="92,3 181,38 92,73 3,38" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="ddu-decision-label">В ДДУ больше одного участника?</div>
-    </div>
-
-    <div class="ddu-branches">
-      <div class="ddu-branch">
-        <div class="ddu-branch-line yes"></div>
-        <div class="ddu-mini yes">
-          <span class="ddu-tag yes">✓ Да</span><br>
+<div class="ddu-arrow"></div>
+<div class="ddu-step start">
+<div class="ddu-step-top">
+<div class="ddu-step-icon">📄</div>
+<div>
+<div class="ddu-step-title">В заявку поступил ДДУ</div>
+<div class="ddu-step-sub">Открываем документ и проверяем количество участников, указанных в ДДУ.</div>
+</div>
+</div>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-decision">
+<svg viewbox="0 0 184 76"><polygon fill="#120f00" points="92,3 181,38 92,73 3,38" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="ddu-decision-label">В ДДУ больше одного участника?</div>
+</div>
+<div class="ddu-branches">
+<div class="ddu-branch">
+<div class="ddu-branch-line yes"></div>
+<div class="ddu-mini yes">
+<span class="ddu-tag yes">✓ Да</span><br/>
           Сверяем всех участников ДДУ с участниками сделки в АРМе.
         </div>
-      </div>
-      <div class="ddu-branch">
-        <div class="ddu-branch-line no"></div>
-        <div class="ddu-mini no">
-          <span class="ddu-tag no">✗ Нет</span><br>
+</div>
+<div class="ddu-branch">
+<div class="ddu-branch-line no"></div>
+<div class="ddu-mini no">
+<span class="ddu-tag no">✗ Нет</span><br/>
           Переходим к проверке полного пакета и передаче на вторую линию.
         </div>
-      </div>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-decision">
-      <svg viewBox="0 0 184 76"><polygon points="92,3 181,38 92,73 3,38" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="ddu-decision-label">Все участники добавлены в сделку?</div>
-    </div>
-
-    <div class="ddu-branches">
-      <div class="ddu-branch">
-        <div class="ddu-branch-line yes"></div>
-        <div class="ddu-mini yes">
-          <span class="ddu-tag yes">✓ Да</span><br>
+</div>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-decision">
+<svg viewbox="0 0 184 76"><polygon fill="#120f00" points="92,3 181,38 92,73 3,38" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="ddu-decision-label">Все участники добавлены в сделку?</div>
+</div>
+<div class="ddu-branches">
+<div class="ddu-branch">
+<div class="ddu-branch-line yes"></div>
+<div class="ddu-mini yes">
+<span class="ddu-tag yes">✓ Да</span><br/>
           Дополнительный поиск заявок не требуется.
         </div>
-      </div>
-      <div class="ddu-branch">
-        <div class="ddu-branch-line no"></div>
-        <div class="ddu-mini no">
-          <span class="ddu-tag no">✗ Нет</span><br>
+</div>
+<div class="ddu-branch">
+<div class="ddu-branch-line no"></div>
+<div class="ddu-mini no">
+<span class="ddu-tag no">✗ Нет</span><br/>
           Проверяем, подавались ли заявки по отсутствующим участникам.
         </div>
-      </div>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-step search">
-      <div class="ddu-step-top">
-        <div class="ddu-step-icon">🔍</div>
-        <div>
-          <div class="ddu-step-title">Ищем заявки отсутствующих участников</div>
-          <div class="ddu-step-sub">Поиск выполняем последовательно:</div>
-        </div>
-      </div>
-      <ol class="ddu-search-order">
-        <li>Сначала — по полному <b>ФИО</b>.</li>
-        <li>Если не нашли — по <b>фамилии и имени</b> среди заявок этого же агента.</li>
-      </ol>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-decision">
-      <svg viewBox="0 0 184 76"><polygon points="92,3 181,38 92,73 3,38" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="ddu-decision-label">Заявки участников найдены?</div>
-    </div>
-
-    <div class="ddu-branches">
-      <div class="ddu-branch">
-        <div class="ddu-branch-line yes"></div>
-        <div class="ddu-mini yes">
-          <span class="ddu-tag yes">✓ Да</span><br>
+</div>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-step search">
+<div class="ddu-step-top">
+<div class="ddu-step-icon">🔍</div>
+<div>
+<div class="ddu-step-title">Ищем заявки отсутствующих участников</div>
+<div class="ddu-step-sub">Поиск выполняем последовательно:</div>
+</div>
+</div>
+<ol class="ddu-search-order">
+<li>Сначала — по полному <b>ФИО</b>.</li>
+<li>Если не нашли — по <b>фамилии и имени</b> среди заявок этого же агента.</li>
+</ol>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-decision">
+<svg viewbox="0 0 184 76"><polygon fill="#120f00" points="92,3 181,38 92,73 3,38" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="ddu-decision-label">Заявки участников найдены?</div>
+</div>
+<div class="ddu-branches">
+<div class="ddu-branch">
+<div class="ddu-branch-line yes"></div>
+<div class="ddu-mini yes">
+<span class="ddu-tag yes">✓ Да</span><br/>
           Объединяем участников и заявки в одну главную сделку.
         </div>
-      </div>
-      <div class="ddu-branch">
-        <div class="ddu-branch-line no"></div>
-        <div class="ddu-mini no">
-          <span class="ddu-tag no">✗ Нет</span><br>
+</div>
+<div class="ddu-branch">
+<div class="ddu-branch-line no"></div>
+<div class="ddu-mini no">
+<span class="ddu-tag no">✗ Нет</span><br/>
           Проверяем данные вручную и не закрываем заявки без подтверждения.
         </div>
-      </div>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-step merge">
-      <div class="ddu-step-top">
-        <div class="ddu-step-icon">🔗</div>
-        <div>
-          <div class="ddu-step-title">Формируем одну главную сделку</div>
-          <div class="ddu-step-sub">
+</div>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-step merge">
+<div class="ddu-step-top">
+<div class="ddu-step-icon">🔗</div>
+<div>
+<div class="ddu-step-title">Формируем одну главную сделку</div>
+<div class="ddu-step-sub">
             Главной оставляем сделку, по которой агент прислал документы. Добавляем в нее всех участников ДДУ, а остальные найденные заявки закрываем <b>в пользу успешной сделки</b>.
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-step transfer">
-      <div class="ddu-step-top">
-        <div class="ddu-step-icon">📦</div>
-        <div>
-          <div class="ddu-step-title">Передаем полный пакет на вторую линию</div>
-          <div class="ddu-step-sub">Пакет документов передаем только по одной — главной — сделке.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-step check">
-      <div class="ddu-step-top">
-        <div class="ddu-step-icon">🧪</div>
-        <div>
-          <div class="ddu-step-title">Вторая линия проверяет ДДУ на дубли</div>
-          <div class="ddu-step-sub">Проверка выполняется перед отправкой документов на согласование застройщику.</div>
-        </div>
-      </div>
-      <a class="ddu-tool-link" href="https://script.google.com/macros/s/AKfycbyAr0sdQMK0Yu_JL_zLZ0SS45uoxvDFBmx0ZMJNz4xLfVZxx5qn8PpAekTMM0pcDMkzAg/exec" target="_blank" rel="noopener noreferrer">
+</div>
+</div>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-step transfer">
+<div class="ddu-step-top">
+<div class="ddu-step-icon">📦</div>
+<div>
+<div class="ddu-step-title">Передаем полный пакет на вторую линию</div>
+<div class="ddu-step-sub">Пакет документов передаем только по одной — главной — сделке.</div>
+</div>
+</div>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-step check">
+<div class="ddu-step-top">
+<div class="ddu-step-icon">🧪</div>
+<div>
+<div class="ddu-step-title">Вторая линия проверяет ДДУ на дубли</div>
+<div class="ddu-step-sub">Проверка выполняется перед отправкой документов на согласование застройщику.</div>
+</div>
+</div>
+<a class="ddu-tool-link" href="https://script.google.com/macros/s/AKfycbyAr0sdQMK0Yu_JL_zLZ0SS45uoxvDFBmx0ZMJNz4xLfVZxx5qn8PpAekTMM0pcDMkzAg/exec" rel="noopener noreferrer" target="_blank">
         🔎 Открыть инструмент «Проверка ДДУ»
       </a>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-decision">
-      <svg viewBox="0 0 184 76"><polygon points="92,3 181,38 92,73 3,38" fill="#120f00" stroke="#f59e0b" stroke-width="1.5"/></svg>
-      <div class="ddu-decision-label">Инструмент нашел дубли?</div>
-    </div>
-
-    <div class="ddu-branches">
-      <div class="ddu-branch">
-        <div class="ddu-branch-line yes"></div>
-        <div class="ddu-mini yes">
-          <span class="ddu-tag yes">✓ Да</span><br>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-decision">
+<svg viewbox="0 0 184 76"><polygon fill="#120f00" points="92,3 181,38 92,73 3,38" stroke="#f59e0b" stroke-width="1.5"></polygon></svg>
+<div class="ddu-decision-label">Инструмент нашел дубли?</div>
+</div>
+<div class="ddu-branches">
+<div class="ddu-branch">
+<div class="ddu-branch-line yes"></div>
+<div class="ddu-mini yes">
+<span class="ddu-tag yes">✓ Да</span><br/>
           Проверяем все совпадения вручную в АРМе.
         </div>
-      </div>
-      <div class="ddu-branch">
-        <div class="ddu-branch-line no"></div>
-        <div class="ddu-mini no" style="background:#0c1f12;border-color:#22c55e77;color:#86efac;">
-          <span class="ddu-tag yes">✗ Дублей нет</span><br>
+</div>
+<div class="ddu-branch">
+<div class="ddu-branch-line no"></div>
+<div class="ddu-mini no" style="background:#0c1f12;border-color:#22c55e77;color:#86efac;">
+<span class="ddu-tag yes">✗ Дублей нет</span><br/>
           Передаем документы на согласование застройщику.
         </div>
-      </div>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-step manual">
-      <div class="ddu-step-top">
-        <div class="ddu-step-icon">🖥️</div>
-        <div>
-          <div class="ddu-step-title">Ручная проверка совпадений в АРМе</div>
-          <div class="ddu-step-sub">Проверяем каждую найденную заявку и определяем, является ли совпадение фактическим дублем.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ddu-arrow"></div>
-
-    <div class="ddu-step success">
-      <div class="ddu-step-top">
-        <div class="ddu-step-icon">✅</div>
-        <div>
-          <div class="ddu-step-title">После проверки передаем на застройщика</div>
-          <div class="ddu-step-sub">Отправляем документы на согласование только после того, как убедились, что фактических дублей нет или найденные совпадения корректно обработаны.</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
 </div>
-
 </div>
-
+<div class="ddu-arrow"></div>
+<div class="ddu-step manual">
+<div class="ddu-step-top">
+<div class="ddu-step-icon">🖥️</div>
+<div>
+<div class="ddu-step-title">Ручная проверка совпадений в АРМе</div>
+<div class="ddu-step-sub">Проверяем каждую найденную заявку и определяем, является ли совпадение фактическим дублем.</div>
+</div>
+</div>
+</div>
+<div class="ddu-arrow"></div>
+<div class="ddu-step success">
+<div class="ddu-step-top">
+<div class="ddu-step-icon">✅</div>
+<div>
+<div class="ddu-step-title">После проверки передаем на застройщика</div>
+<div class="ddu-step-sub">Отправляем документы на согласование только после того, как убедились, что фактических дублей нет или найденные совпадения корректно обработаны.</div>
+</div>
+</div>
+</div>
+</div>
+</div></section></main></div>
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>Действие / Шаг</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Точка решения</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Уточняем статус + Summary + Чат</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Эскалация / Закрытие</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#7dd3fc"></div>Таймер</div>
+<div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>Действие / Шаг</div>
+<div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Точка решения</div>
+<div class="legend-item"><div class="legend-dot" style="background:#22c55e"></div>Уточняем статус + Summary + Чат</div>
+<div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Эскалация / Закрытие</div>
+<div class="legend-item"><div class="legend-dot" style="background:#7dd3fc"></div>Таймер</div>
 </div>
 
+<script>
+(function () {
+  const tabs = Array.from(document.querySelectorAll('.workflow-tab'));
+  const panels = Array.from(document.querySelectorAll('.workflow-panel'));
+  const layout = document.getElementById('workflow');
+
+  function activate(target, shouldScroll) {
+    const selectedTab = tabs.find(tab => tab.dataset.target === target) || tabs[0];
+    const selectedTarget = selectedTab.dataset.target;
+
+    tabs.forEach(tab => {
+      const active = tab === selectedTab;
+      tab.classList.toggle('active', active);
+      tab.setAttribute('aria-selected', String(active));
+      tab.tabIndex = active ? 0 : -1;
+    });
+
+    panels.forEach(panel => {
+      panel.hidden = panel.dataset.panel !== selectedTarget;
+    });
+
+    history.replaceState(null, '', '#' + selectedTarget);
+
+    if (shouldScroll && layout) {
+      const top = layout.getBoundingClientRect().top + window.scrollY - 18;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => activate(tab.dataset.target, true));
+    tab.addEventListener('keydown', event => {
+      if (!['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+      event.preventDefault();
+      let next = index;
+      if (event.key === 'Home') next = 0;
+      else if (event.key === 'End') next = tabs.length - 1;
+      else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (index + 1) % tabs.length;
+      else next = (index - 1 + tabs.length) % tabs.length;
+      tabs[next].focus();
+      activate(tabs[next].dataset.target, false);
+    });
+  });
+
+  const initial = location.hash.replace('#', '');
+  activate(tabs.some(tab => tab.dataset.target === initial) ? initial : 'fixation', false);
+})();
+</script>
 </body>
 </html>
