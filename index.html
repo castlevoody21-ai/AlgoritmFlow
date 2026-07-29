@@ -1941,6 +1941,73 @@
   padding: 17px 18px !important;
 }
 
+.booking-only-alert {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 18px;
+  padding: 16px 18px;
+  border: 1px solid #f2b84b;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fff9e8 0%, #fff3cf 100%);
+  box-shadow: 0 8px 20px rgba(146, 92, 12, .08);
+}
+
+.booking-only-alert-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #fff;
+  color: #a45d00;
+  font-size: 20px;
+  box-shadow: inset 0 0 0 1px #f6d789;
+}
+
+.booking-only-alert-copy strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #7a4300;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.booking-only-alert-copy span {
+  display: block;
+  color: #684d24;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.booking-only-link {
+  min-height: 40px;
+  padding: 9px 15px;
+  border: 1px solid #1677e8;
+  border-radius: 999px;
+  background: #1677e8;
+  color: #fff;
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 850;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(22, 119, 232, .2);
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+.booking-only-link:hover {
+  background: #0966d2;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(22, 119, 232, .26);
+}
+
+.booking-only-link:focus-visible {
+  outline: 3px solid rgba(22, 119, 232, .25);
+  outline-offset: 3px;
+}
+
 [data-fix-panel="booking-only"] .sentence-line {
   display: block;
 }
@@ -2578,6 +2645,106 @@
   text-align: center;
 }
 
+.instruction-pane[hidden] { display: none !important; }
+.communication-tool {
+  width: min(100%, 1240px);
+  display: grid;
+  gap: 14px;
+  margin: 0 auto;
+}
+.communication-hero {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  padding: 17px 20px; border: 1px solid #dbe7ff; border-radius: 18px;
+  background: linear-gradient(135deg,#f6f9ff 0%,#eef5ff 100%);
+}
+.communication-hero h2 { margin: 0 0 4px; color: #111827; font-size: 21px; }
+.communication-hero p { margin: 0; color: #64748b; font-size: 12.5px; line-height: 1.45; }
+.communication-hero-badge {
+  flex: 0 0 auto; padding: 7px 11px; border: 1px solid #bfdbfe; border-radius: 999px;
+  background: #fff; color: #1d4ed8; font-size: 10.5px; font-weight: 800; white-space: nowrap;
+}
+.communication-filters { display: grid; grid-template-columns: minmax(190px,.75fr) minmax(260px,1.25fr); gap: 12px; }
+.communication-field { display: grid; gap: 7px; }
+.communication-field label { color: #475569; font-size: 12px; font-weight: 800; }
+.communication-select,.communication-search {
+  width: 100%; min-height: 40px; border: 1px solid #d8e0ec; border-radius: 12px;
+  background: #fff; color: #172033; font: inherit; padding: 0 14px; outline: none;
+}
+.communication-select:focus,.communication-search:focus {
+  border-color: #7aa7ff; box-shadow: 0 0 0 3px rgba(37,99,235,.10);
+}
+.communication-stage-tabs,.communication-variant-tabs {
+  display: flex; flex-wrap: wrap; gap: 9px;
+}
+.communication-topic-grid { display: grid; gap: 7px; }
+.communication-stage-button,.communication-topic-button,.communication-variant-button {
+  border: 1px solid #d8e0ec; border-radius: 11px; background: #fff; color: #334155;
+  font: inherit; font-size: 12px; font-weight: 750; cursor: pointer; transition: .18s ease;
+}
+.communication-stage-button { flex: 1 1 180px; min-height: 40px; padding: 8px 14px; }
+.communication-topic-button { width: 100%; min-height: 42px; padding: 9px 11px; text-align: left; }
+.communication-variant-button { padding: 7px 12px; border-radius: 999px; }
+.communication-stage-button:hover,.communication-topic-button:hover,.communication-variant-button:hover {
+  border-color: #8fb4ff; background: #f5f8ff;
+}
+.communication-stage-button.active,.communication-topic-button.active,.communication-variant-button.active {
+  border-color: #1677ff; background: #1677ff; color: #fff;
+  box-shadow: 0 5px 14px rgba(22,119,255,.18);
+}
+.communication-section-label {
+  margin: 2px 0 -5px; color: #64748b; font-size: 10.5px; font-weight: 850;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.communication-workspace {
+  display: grid;
+  grid-template-columns: minmax(250px, 310px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.communication-topic-panel,
+.communication-preview-panel {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #dbe3ef;
+  border-radius: 16px;
+  background: rgba(255,255,255,.72);
+}
+.communication-preview-panel { display: grid; gap: 10px; }
+.communication-topic-panel .communication-section-label,
+.communication-preview-panel .communication-section-label {
+  margin-bottom: 10px;
+}
+.communication-topic-scroll {
+  max-height: 470px;
+  overflow: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+}
+.communication-template-card {
+  border: 1px solid #dbe3ef; border-radius: 15px; background: #fff;
+  box-shadow: 0 7px 20px rgba(30,50,90,.05); overflow: hidden;
+}
+.communication-template-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 12px 14px; border-bottom: 1px solid #e8edf4; background: #f8fbff;
+}
+.communication-template-title { color: #152033; font-size: 12.5px; font-weight: 850; }
+.communication-copy {
+  border: 1px solid #bfdbfe; border-radius: 999px; background: #fff; color: #1264d7;
+  padding: 7px 11px; font: inherit; font-size: 11px; font-weight: 850; cursor: pointer;
+}
+.communication-copy:hover,.communication-copy.copied {
+  border-color: #16a36a; background: #eafaf2; color: #08794b;
+}
+.communication-template-text {
+  min-height: 310px; padding: 17px; color: #29364a; font-size: 13px;
+  line-height: 1.6; white-space: pre-wrap;
+}
+.communication-no-results {
+  padding: 32px; border: 1px dashed #ccd7e5; border-radius: 18px;
+  color: #64748b; text-align: center;
+}
+
 @media (max-width: 900px) {
   .instructions-layout {
     grid-template-columns: 1fr;
@@ -2588,6 +2755,10 @@
   .instructions-nav-title {
     grid-column: 1 / -1;
   }
+  .communication-workspace { grid-template-columns: 1fr; }
+  .communication-topic-scroll { max-height: none; }
+  .communication-topic-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .communication-template-text { min-height: 240px; }
 }
 
 @media (max-width: 620px) {
@@ -2599,6 +2770,16 @@
   .instructions-nav,
   .instruction-grid {
     grid-template-columns: 1fr;
+  }
+  .communication-filters { grid-template-columns: 1fr; }
+  .communication-hero { flex-direction: column; }
+  .communication-topic-grid { grid-template-columns: 1fr; }
+  .booking-only-alert {
+    grid-template-columns: auto 1fr;
+  }
+  .booking-only-link {
+    grid-column: 1 / -1;
+    width: 100%;
   }
 }
 
@@ -2696,7 +2877,7 @@
 </div>
 
 <section class="main-panel" data-main-panel="flow">
-<div class="workflow-layout" id="workflow"><nav aria-label="Флоу обработки заявки" class="workflow-nav"><div class="workflow-nav-title">Выберите флоу</div><div class="workflow-nav-sub">Раздел откроется справа с первого шага</div><button aria-controls="panel-fixation" aria-selected="true" class="workflow-tab tone-green active" data-target="fixation" id="tab-fixation" role="tab" type="button"><span class="workflow-tab-number">01</span><span class="workflow-tab-icon">📋</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Фиксация</span><span class="workflow-tab-desc">Переход в бронь и актуализация статуса</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-booking" aria-selected="false" class="workflow-tab tone-blue" data-target="booking" id="tab-booking" role="tab" type="button"><span class="workflow-tab-number">02</span><span class="workflow-tab-icon">🏠</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Бронирование</span><span class="workflow-tab-desc">Уточнение статуса сделки</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-documents" aria-selected="false" class="workflow-tab tone-amber" data-target="documents" id="tab-documents" role="tab" type="button"><span class="workflow-tab-number">03</span><span class="workflow-tab-icon">📄</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Документы для закрытия с ЗС</span><span class="workflow-tab-desc">Запрос и контроль полного пакета</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-transfer" aria-selected="false" class="workflow-tab tone-purple" data-target="transfer" id="tab-transfer" role="tab" type="button"><span class="workflow-tab-number">04</span><span class="workflow-tab-icon">🔎</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Передача полного пакета</span><span class="workflow-tab-desc">Участники ДДУ, объединение и проверка дублей</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button></nav><main class="workflow-content"><section aria-labelledby="tab-fixation" class="workflow-panel" data-panel="fixation" id="panel-fixation" role="tabpanel">
+<div class="workflow-layout" id="workflow"><nav aria-label="Флоу обработки заявки" class="workflow-nav"><div class="workflow-nav-title">Выберите флоу</div><div class="workflow-nav-sub">Раздел откроется справа с первого шага</div><button aria-controls="panel-fixation" aria-selected="true" class="workflow-tab tone-green active" data-target="fixation" id="tab-fixation" role="tab" type="button"><span class="workflow-tab-number">01</span><span class="workflow-tab-icon">📋</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Фиксация</span><span class="workflow-tab-desc">Переход в бронь и актуализация статуса</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-booking" aria-selected="false" class="workflow-tab tone-blue" data-target="booking" id="tab-booking" role="tab" type="button"><span class="workflow-tab-number">02</span><span class="workflow-tab-icon">🏠</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Бронирование</span><span class="workflow-tab-desc">Уточнение статуса сделки</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-transfer" aria-selected="false" class="workflow-tab tone-purple" data-target="transfer" id="tab-transfer" role="tab" type="button"><span class="workflow-tab-number">03</span><span class="workflow-tab-icon">🔎</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Передача полного пакета</span><span class="workflow-tab-desc">Участники ДДУ, объединение и проверка дублей</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button><button aria-controls="panel-documents" aria-selected="false" class="workflow-tab tone-amber" data-target="documents" id="tab-documents" role="tab" type="button"><span class="workflow-tab-number">04</span><span class="workflow-tab-icon">📄</span><span class="workflow-tab-copy"><span class="workflow-tab-name">Документы для закрытия с ЗС</span><span class="workflow-tab-desc">Запрос и контроль полного пакета</span></span><span aria-hidden="true" class="workflow-tab-chevron">›</span></button></nav><main class="workflow-content"><section aria-labelledby="tab-fixation" class="workflow-panel" data-panel="fixation" id="panel-fixation" role="tabpanel">
 <div class="fix-flow-shell">
   <div class="fix-subtabs" role="tablist" aria-label="Флоу фиксации">
     <button class="fix-subtab active" data-fix-target="standard" type="button"><strong>Фиксация</strong><span>У ЗС есть этап фиксации</span></button>
@@ -2996,7 +3177,16 @@
   </div>
 
   <div class="fix-subpanel" data-fix-panel="booking-only" hidden>
-    <div class="flow-card"><div class="flow-card-head orange"><div class="icon">🚫</div><div><h2>Нет фиксации и уникальности</h2><p>У застройщика доступно только бронирование</p></div></div><div class="process">
+    <div class="flow-card"><div class="flow-card-head orange"><div class="icon">🚫</div><div><h2>Нет фиксации и уникальности</h2><p>У застройщика доступно только бронирование</p></div></div>
+      <div class="booking-only-alert" role="note" aria-label="Важное изменение процесса">
+        <div class="booking-only-alert-icon" aria-hidden="true">⚠️</div>
+        <div class="booking-only-alert-copy">
+          <strong>Важно: заявка на фиксацию недоступна</strong>
+          <span>Агент не может подать заявку по таким ЖК, только заявку на бронь.</span>
+        </div>
+        <button class="booking-only-link" data-go-to-flow="booking" type="button">Перейти в «Бронирование» →</button>
+      </div>
+      <div class="process">
       <div class="process-step blue" id="booking-only-start"><div class="process-step-top"><div class="process-step-icon">📥</div><div><div class="process-step-title">Заявка на фиксацию поступила в систему</div><div class="process-step-sub"><span class="sentence-line">Берём заявку и задачу <b>«Фиксация: новое»</b> на себя.</span><span class="sentence-line">Ознакомливаемся с регламентом застройщика.</span></div></div></div></div><div class="process-arrow"></div>
       <div class="process-step amber" id="booking-only-inform"><div class="process-step-top"><div class="process-step-icon">💬</div><div><div class="process-step-title">Информируем агента</div><div class="process-step-sub"><span class="sentence-line">Сообщаем, что у ЗС нет этапа фиксации и нет проверки на уникальность.</span><span class="sentence-line">Для продолжения нужно перейти к бронированию объекта.</span><span class="sentence-line">Ожидаем от вас новую заявку, эту закрываем.</span></div></div></div></div><div class="process-arrow"></div>
       <div class="process-step red" id="booking-only-close"><div class="process-step-top"><div class="process-step-icon">🔒</div><div><div class="process-step-title">Закрываем заявку</div><div class="process-step-sub"><span class="sentence-line">Задачу <b>«Фиксация: новое»</b> закрываем как ошибочную.</span><div class="closure-reason">Заявку закрываем с причиной «Дубль».</div></div></div></div></div>
@@ -3549,7 +3739,7 @@
       <button class="instruction-category" type="button" data-instruction-category="tools" aria-pressed="false"><span class="instruction-category-icon">🧰</span><span class="instruction-category-name">Инструменты</span><span class="instruction-category-arrow">›</span></button>
     </aside>
 
-    <main class="instructions-content">
+    <main class="instructions-content instruction-pane" data-instruction-pane="work">
       <h2 class="instructions-heading">Инструкции</h2>
       <p class="instructions-subtitle">Правила, шаблоны и полезные материалы для работы</p>
       <input class="instructions-search" type="search" placeholder="Найти инструкцию" aria-label="Найти инструкцию">
@@ -3571,8 +3761,694 @@
       </div>
       <div class="instructions-empty">По этому запросу инструкции не найдены</div>
     </main>
+
+    <main class="instructions-content instruction-pane" data-instruction-pane="communication" hidden>
+      <div class="communication-tool">
+        <div class="communication-hero">
+          <div>
+            <h2>Шаблоны коммуникаций</h2>
+            <p>Выберите регион, этап и ситуацию. Нужный вариант можно скопировать одним нажатием.</p>
+          </div>
+          <span class="communication-hero-badge">💬 Коммуникация с агентом</span>
+        </div>
+
+        <div class="communication-filters">
+          <div class="communication-field">
+            <label for="communication-region">Регион</label>
+            <select class="communication-select" id="communication-region">
+              <option value="">Все регионы</option>
+              <option value="kzn">Казань</option>
+              <option value="ufa">Уфа</option>
+              <option value="ekb">Екатеринбург</option>
+              <option value="vrn">Воронеж</option>
+              <option value="ros">Ростов-на-Дону</option>
+            </select>
+          </div>
+          <div class="communication-field">
+            <label for="communication-search">Поиск по теме или тексту шаблона</label>
+            <input class="communication-search" id="communication-search" type="search" placeholder="Например: фиксация, документы, выплата">
+          </div>
+        </div>
+
+        <div class="communication-section-label">Этап работы</div>
+        <div class="communication-stage-tabs" id="communication-stages"></div>
+
+        <div class="communication-workspace">
+          <section class="communication-topic-panel">
+            <div class="communication-section-label">Ситуация</div>
+            <div class="communication-topic-scroll">
+              <div class="communication-topic-grid" id="communication-topics"></div>
+              <div class="communication-no-results" id="communication-empty" hidden>Подходящих шаблонов не найдено</div>
+            </div>
+          </section>
+
+          <section class="communication-preview-panel" id="communication-template-area">
+            <div class="communication-section-label">Вариант ответа</div>
+            <div class="communication-variant-tabs" id="communication-variants"></div>
+            <article class="communication-template-card">
+              <div class="communication-template-head">
+                <span class="communication-template-title" id="communication-template-title"></span>
+                <button class="communication-copy" id="communication-copy" type="button">📋 Копировать</button>
+              </div>
+              <div class="communication-template-text" id="communication-template-text"></div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <main class="instructions-content instruction-pane" data-instruction-pane="statuses" hidden></main>
+    <main class="instructions-content instruction-pane" data-instruction-pane="tools" hidden></main>
   </div>
 </section>
+<script>
+/* Встроенные шаблоны коммуникаций */
+window.COMMUNICATION_TEMPLATE_DATA = {
+  regionFileLinks: {
+    kzn: "https://docs.google.com/spreadsheets/d/16xT88vb4sAAlXD7lfmMobh6PfsDC9gB3WONZ9exGslM/edit?gid=0#gid=0",
+    ekb: "https://docs.google.com/spreadsheets/d/1JWcZVmuYSo9l1g1wRt0AhJRrEyeNprsdb1snrOrL21k/edit?gid=944436907#gid=944436907",
+    ros: "https://docs.google.com/spreadsheets/d/10ikUxcOX0fskwIunLxMObLETH1ekfwDqrDPKBVK8-jg/edit?gid=84083378#gid=84083378",
+    ufa: "https://docs.google.com/spreadsheets/d/1rjpSL_yl5TIa0bmmcvnd5EFgvIrVmKXbU9jPVTLFrD0/edit?gid=2002780521#gid=2002780521",
+    vrn: "https://docs.google.com/spreadsheets/d/1qHn02iaYyxe4PBr3L8fuO0NxqM3yVofMCK2vs6yiVN4/edit?gid=223348282#gid=223348282"
+  },
+  stages: {
+    "Фиксация": [
+      {
+        name: "Фиксация новая",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+Пока ожидаем ответ застройщика, подскажите, какая форма оплаты планируется у клиента?
+
+Если ипотека — можем передать в ипотечный сервис для подбора программы и быстрой отправки заявок в банки. 🏦`,
+          `Добрый день, (Имя агента)!
+
+Клиент определился с формой оплаты?
+
+Если ипотека — мы можем передать заявку в ипотечный сервис, чтобы подобрать программу и быстро направить её в банки. 💰📈`,
+          `Добрый день, партнер! 😊
+
+Пока ожидаем ответ, уточните, пожалуйста, какая форма оплаты планируется у клиента.
+
+Если рассматриваете ипотеку — рекомендуем наш ипотечный сервис. Коллеги подберут программу, подадут заявки в банки и доведут клиента до одобрения.`
+        ]
+      },
+      {
+        name: "Фиксация новая — несколько заявок",
+        templates: [
+          `Добрый день, уважаемый партнер!
+
+Благодарим вас за заявки — мы уже приняли их в работу и взаимодействуем с застройщиком для проверки данных.
+
+Подскажите, пожалуйста, какая форма оплаты планируется у клиента?`,
+          `Добрый день, (Имя агента)!
+
+Заявки приняты в работу, проверяем данные с застройщиком.
+
+Уточните, пожалуйста, форму оплаты, которую планирует клиент. Спасибо.`,
+          `Добрый день, (Имя агента)!
+
+Спасибо за заявки, мы уже взяли их в работу. Скоро пришлём детали и информацию по комиссионному вознаграждению.
+
+А пока подскажите, пожалуйста, какая форма оплаты планируется у клиента?`
+        ]
+      },
+      {
+        name: "Форма оплаты",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+Хотим также уточнить:
+• ФИО всех участников сделки;
+• форму оплаты.
+
+Напоминаем: бронирование, запись в офис и фиксация — только через сервис Партнёрский канал. Это важно для корректной выплаты комиссионного вознаграждения. 🤝`,
+          `Добрый день, (Имя агента)!
+
+Подскажите, пожалуйста, какая форма оплаты планируется у клиента?
+
+Это нужно, чтобы мы заранее сориентировались по ходу сделки и верно проинформировали вас по условиям выплаты вознаграждения.`,
+          `(Имя агента), добрый день!
+
+Подскажите, какой тип оплаты выбрал клиент: наличные, ипотека или рассрочка?
+
+Это поможет нам заранее всё подготовить, чтобы выплата прошла без задержек.`
+        ]
+      },
+      {
+        name: "Фиксация не согласована",
+        templates: [
+          `(Имя), добрый день!
+
+К сожалению, клиент уже закреплён за другим агентом у застройщика, поэтому зафиксировать его за вами не получится.
+
+Мы готовы помочь подобрать альтернативный объект. Подскажите ключевые параметры клиента: бюджет, метраж, этаж и сроки.
+
+Также направляем файл с актуальными акциями: (ссылка на файл)`,
+          `Добрый день, (Имя)!
+
+Закрепление не проходит, так как клиент уже числится за другим агентом в системе застройщика.
+
+Предлагаем рассмотреть другие варианты. Сообщите основные пожелания клиента, и мы подберём подходящие предложения.
+
+Файл с актуальными акциями: (ссылка на файл)`,
+          `Добрый день, (Имя)!
+
+Клиент уже обращался к застройщику, поэтому мы не можем зафиксировать его за вами.
+
+Будем рады поработать по другим жилым комплексам. Расскажите, какие объекты интересны клиенту.
+
+Актуальные акции: (ссылка на файл)`
+        ]
+      },
+      {
+        name: "Уточнение статуса у агента",
+        templates: [
+          `Здравствуйте, (Имя агента)! 😊
+
+Как продвигается работа с клиентом? Мы на связи, чтобы помочь довести сделку до финала.
+
+Если договорённости уже есть — направляйте заявку на бронирование. Будем работать слаженно, чтобы вы быстрее получили комиссию. 💰`,
+          `Здравствуйте, (Имя агента)! 😊
+
+Подскажите, как сейчас проходит работа с клиентом? Для нас важна ваша обратная связь.
+
+Если вы уже вышли на сделку, пожалуйста, направьте заявку на бронирование.`,
+          `Здравствуйте, (Имя агента)! 😊
+
+Как идут переговоры? Если вы уже выходите на сделку, закрепите результат — направляйте заявку на бронирование.
+
+С нас — оперативное оформление и сопровождение выплаты.`
+        ]
+      },
+      {
+        name: "Застройщик без этапа фиксации",
+        templates: [
+          `(Имя), добрый день!
+
+Спасибо за заявку по ЖК «(Название ЖК)».
+
+По этому застройщику фиксация не предусмотрена: работа начинается с бронирования через сервис «Подбор новостроек».
+
+Когда клиент определится с квартирой, направляйте заявку на бронирование — мы сразу примем её в работу.`,
+          `Добрый день, (Имя)!
+
+По ЖК «(Название ЖК)» применяется бронирование через сервис «Подбор новостроек», отдельного этапа фиксации нет.
+
+После выбора квартиры клиентом просим направить заявку на бронирование.`,
+          `(Имя), добрый день!
+
+Бронирование по ЖК «(Название ЖК)» ведётся через сервис «Подбор новостроек». Фиксация у застройщика не предусмотрена.
+
+Когда клиент выберет объект, отправьте заявку — мы незамедлительно возьмём её в работу.`
+        ]
+      },
+      {
+        name: "Продление фиксации",
+        templates: [
+          `(Имя), добрый день.
+
+Спасибо за информацию. Направим застройщику запрос на продление фиксации по истечении срока (дд.мм.гггг).
+
+О результате сообщим дополнительно.`,
+          `Добрый день, (Имя)!
+
+Благодарим за предоставленные данные. Запросим у застройщика продление фиксации — текущий срок истекает (дд.мм.гггг).
+
+Как только получим ответ, сразу вас проинформируем.`,
+          `Добрый день, (Имя)!
+
+Информацию получили, спасибо. Отправляем застройщику запрос на продление фиксации со сроком до (дд.мм.гггг).
+
+Напишем, как только получим ответ.`
+        ]
+      },
+      {
+        name: "Инструкция по бронированию",
+        templates: [
+          `Добрый день, (Имя)!
+
+Чтобы мы могли начать расчёт по сделке, направьте заявку на бронирование через АвитоPro:
+
+1. Откройте ЛК → «Подбор новостроек».
+2. Выберите регион и нужный ЖК.
+3. В разделе «Объекты» выберите квартиру.
+4. Нажмите «Бронирование».
+5. Заполните поля и укажите детали в комментарии.
+6. Отправьте заявку — мы сразу возьмём её в работу.`,
+          `(Имя), добрый день!
+
+Для расчёта по сделке просим направить заявку на бронирование через сервис «Подбор новостроек» в АвитоPro.
+
+Выберите регион, ЖК и квартиру, заполните поля, укажите детали в комментарии и отправьте заявку.`,
+          `Добрый день, (Имя)!
+
+Для расчёта по сделке необходимо направить заявку на бронирование через АвитоPro, раздел «Подбор новостроек».
+
+Если возникнут вопросы при заполнении — мы на связи.`
+        ]
+      },
+      {
+        name: "Запрос заявки на бронирование",
+        templates: [
+          `(Имя агента), добрый день!
+
+Поздравляем вас с выходом на сделку 🙌
+
+Для корректного оформления и своевременной выплаты комиссии направьте, пожалуйста, заявку на бронирование через сервис «Подбор новостроек».`,
+          `(Имя), добрый день!
+
+Поздравляем с выходом на сделку.
+
+Для корректного оформления и своевременной выплаты комиссии просим направить заявку на бронирование через сервис «Подбор новостроек».`,
+          `Добрый день, (Имя)!
+
+Сделка состоялась — поздравляем!
+
+Просим оперативно подать заявку на бронирование через сервис «Подбор новостроек». Этот шаг необходим для согласования параметров и выплаты комиссии.`
+        ]
+      },
+      {
+        name: "Ходатайство / согласие",
+        templates: [
+          `(Имя), добрый день!
+
+Заявку на бронирование в ЖК «...» получили и приняли в работу.
+
+Для передачи застройщику просим предоставить:
+• (Название документа)
+
+После получения документа оперативно направим заявку и сообщим о решении.`,
+          `(Имя агента), добрый день!
+
+Спасибо за заявку на бронирование в ЖК «...». Чтобы отправить её застройщику, нам нужен документ:
+
+👉 (Название документа)
+
+Как только вы пришлёте его, мы сразу продолжим работу.`,
+          `Добрый день, (Имя)!
+
+Заявка по ЖК «...» зарегистрирована и готовится к отправке.
+
+Для завершения подготовки необходим документ:
+❗ (Название документа)
+
+Просим направить его в чат.`
+        ]
+      },
+      {
+        name: "Файл с акциями",
+        requiresRegion: true,
+        appendRegionLink: true,
+        templates: [
+          `❗ Мы собрали для вас самые выгодные предложения от застройщиков в одном файле: `,
+          `🔹 Вся информация о выгодных предложениях для вашего клиента собрана в одном файле: `,
+          `🌸 Полный список актуальных предложений и акций по ЖК: `
+        ]
+      }
+    ],
+    "Бронирование": [
+      {
+        name: "Тип бронирования",
+        templates: [
+          `(Имя агента), добрый день.
+
+Пока ожидаем ответ застройщика, уточните, пожалуйста, какой тип бронирования выбрал клиент: платный или бесплатный?
+
+Это поможет нам быстрее подготовить следующий шаг.`,
+          `(Имя агента), добрый день.
+
+Подскажите, клиент выбрал платное или бесплатное бронирование?
+
+Эта информация поможет нам не пропустить ни один этап.`,
+          `Добрый день, (Имя)!
+
+Уточните, пожалуйста, тип бронирования: платное или бесплатное.
+
+Данная информация необходима для своевременной подготовки документов и расчётов.`
+        ]
+      },
+      {
+        name: "Запрос акта бронирования",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+Напоминаем, что ожидаем от вас акт бронирования объекта.
+
+Документ необходим для завершения взаимодействия с застройщиком. Без него мы не сможем закрыться по сделке.`,
+          `Добрый день, (Имя)!
+
+Напоминаем, что ожидаем акт бронирования. Документ необходим для завершения сделки.
+
+Просим направить его в ближайшее время.`,
+          `Добрый день, (Имя)!
+
+Для завершения сделки нам требуется акт бронирования.
+
+Будем признательны за его оперативное предоставление.`
+        ]
+      },
+      {
+        name: "Запрос документов",
+        labels: ["При ДДУ", "При ДКП", "ДДУ / ДКП"],
+        templates: [
+          `Добрый день, (Имя)!
+
+Для выплаты комиссии по ДДУ просим предоставить:
+• ДДУ в формате PDF;
+• электронную подпись .sig/.sign в одном ZIP-архиве.
+
+Альтернативно:
+• шаблон ДДУ;
+• выписку из эскроу-счёта.
+
+Опционально: выписка из ЕГРН.
+Обязательно: реквизиты ИП/ЮЛ и юридический адрес.`,
+          `Добрый день, (Имя)!
+
+Для выплаты комиссии по ДКП просим предоставить:
+• ДКП в формате PDF;
+• электронную подпись .sig/.sign в одном ZIP-архиве.
+
+Альтернативно:
+• шаблон ДКП;
+• чек об оплате или платёжное поручение.
+
+Опционально: выписка из ЕГРН.
+Обязательно: реквизиты ИП/ЮЛ и юридический адрес.`,
+          `Добрый день, (Имя)!
+
+Для выплаты комиссии просим предоставить документы в зависимости от типа договора.
+
+ДДУ: договор PDF + электронная подпись в ZIP либо шаблон ДДУ + выписка из эскроу.
+
+ДКП: договор PDF + электронная подпись в ZIP либо шаблон ДКП + чек/платёжное поручение.
+
+Также нужны реквизиты ИП/ЮЛ и юридический адрес.`
+        ]
+      },
+      {
+        name: "Количество участников и дата сделки",
+        templates: [
+          `(Имя), добрый день!
+
+Уточните, пожалуйста:
+• сколько человек будет в ДДУ/ДКП;
+• удалось ли согласовать примерную дату сделки?`,
+          `Добрый день, (Имя)!
+
+Два быстрых вопроса:
+1. Сколько человек будет в ДДУ/ДКП?
+2. Есть ли приблизительная дата сделки?`,
+          `Добрый день, (Имя)!
+
+Чтобы сопровождать сделку максимально точно, подскажите количество участников договора и ориентировочную дату сделки.`
+        ]
+      },
+      {
+        name: "Ходатайство / согласие",
+        templates: [
+          `(Имя), добрый день!
+
+Заявку на бронирование в ЖК «...» получили и приняли в работу.
+
+Для передачи застройщику просим предоставить:
+• (Название документа)
+
+После получения документа оперативно продолжим работу.`,
+          `(Имя агента), добрый день!
+
+Чтобы направить заявку по ЖК «...» застройщику, нам нужен документ:
+
+👉 (Название документа)
+
+Как только вы пришлёте его, мы сразу продолжим обработку.`,
+          `Добрый день, (Имя)!
+
+Заявка по ЖК «...» зарегистрирована. Для завершения подготовки необходим документ:
+
+❗ (Название документа)`
+        ]
+      },
+      {
+        name: "НДС и назначение платежа",
+        templates: [
+          `(Имя), добрый день!
+
+Для корректного оформления выплаты уточните:
+• являетесь ли вы плательщиком НДС;
+• требуется ли указывать ФИО риелтора в платёжном поручении?
+
+Благодарим за ответ.`,
+          `Добрый день, (Имя)!
+
+Для подготовки платёжных документов нам необходимы:
+• ваш статус по НДС;
+• необходимость указания ФИО риелтора в платёжном поручении.`,
+          `Добрый день, (Имя)!
+
+Два быстрых вопроса, чтобы выплата не задержалась:
+• Вы плательщик НДС?
+• Нужно ли указывать ФИО риелтора в платёжном поручении?`
+        ]
+      },
+      {
+        name: "Дата и чек брони",
+        region: "ufa",
+        templates: [
+          `Для завершения бронирования просим направить:
+• чек об оплате;
+• дату оплаты бронирования.
+
+Благодарим за содействие.`,
+          `Для фиксации бронирования необходимы чек и дата оплаты.
+
+Просим направить их для оперативного завершения процесса.`,
+          `Для закрепления бронирования просим предоставить дату оплаты и подтверждение платежа.`
+        ]
+      },
+      {
+        name: "Чек и договор / скрин брони",
+        region: "kzn",
+        templates: [
+          `Для фиксации бронирования просим направить:
+• договор бронирования или скриншот из ЛК;
+• чек об оплате.
+
+После получения документов направим запрос застройщику.`,
+          `Для закрепления бронирования предоставьте договор бронирования либо скриншот подтверждения из ЛК и документ об оплате.`,
+          `Для завершения бронирования просим направить чек об оплате и договор бронирования либо скриншот из личного кабинета.`
+        ]
+      }
+    ],
+    "Сделка": [
+      {
+        name: "Расчёт КВ на согласование с ЗС",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+Документы передали застройщику для расчёта и согласования вознаграждения.
+
+Ориентировочный срок — 3–5 рабочих дней, далее всё зависит от скорости согласования застройщика.
+
+Как только получим подтверждение и расчёт, сразу вернёмся к вам. Поздравляем с успешной сделкой! 🎉`,
+          `Добрый день, (Имя агента)!
+
+Поздравляем с успешной сделкой — отличный результат 🎉
+
+Комиссию запустили в обработку. Обычно укладываемся в 3–5 рабочих дней.
+
+Подскажите, являетесь ли вы плательщиком НДС, нужно ли указать ФИО агента в назначении платежа и какую дату оплаты юридических услуг зафиксировать?`,
+          `Добрый день, (Имя агента)!
+
+Поздравляем с успешной сделкой 🎉 Документы в работе, запускаем выплату.
+
+По срокам ориентируемся на 3–5 рабочих дней, дальше всё зависит от согласования застройщика.`
+        ]
+      },
+      {
+        name: "Согласование КВ с агентом",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+Поздравляем с успешной сделкой. Просьба проверить расчёты — всё верно?
+
+Оплата по договору оферты.
+Клиент: (ФИО клиента)
+Квартира: №...
+ЖК: «...»
+Сумма сделки: ...
+Комиссия: ...%
+Сумма к выплате: ...
+
+Выплата по реквизитам: ...`,
+          `Добрый день, (Имя агента)!
+
+Направляем расчёт комиссионного вознаграждения по сделке. Пожалуйста, проверьте данные, сумму и реквизиты и подтвердите корректность.`,
+          `Добрый день, (Имя агента)!
+
+Расчёт вознаграждения готов. Проверьте, пожалуйста, параметры сделки и реквизиты для выплаты. Если всё верно — подтвердите в чате.`
+        ]
+      },
+      {
+        name: "Передача в бухгалтерию",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+Спасибо за оперативный ответ! Информацию уже передали в бухгалтерию — выплата запущена. 🚀
+
+Выплаты проводятся с понедельника по четверг, срок — 1–2 рабочих дня. Межбанковский перевод может занять дополнительное время.`,
+          `Добрый день, (Имя агента)!
+
+Данные переданы в бухгалтерию, запуск выплаты оформлен.
+
+Выплаты производятся с понедельника по четверг и обычно занимают 1–2 рабочих дня.`,
+          `(Имя агента), добрый день!
+
+Ваши данные уже у бухгалтерии, платёж готовится к отправке. 💸
+
+Стандартный срок — 1–2 рабочих дня с понедельника по четверг.`
+        ]
+      },
+      {
+        name: "КВ оплачено агенту",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+Возвращаемся с хорошей новостью: комиссия по клиенту (ФИО клиента) оплачена. Средства уже должны были поступить.
+
+Благодарим за сотрудничество и будем ждать новых заявок! 🤝`,
+          `Добрый день, (Имя агента)!
+
+Комиссия за клиента (ФИО клиента) переведена. Деньги должны быть на вашем счёте. 💸
+
+Спасибо за вашу работу!`,
+          `Добрый день, (Имя агента)!
+
+Хорошие новости — комиссия по клиенту (ФИО клиента) выплачена. Финансовая часть сделки закрыта, можно проверить баланс. 💰`
+        ]
+      },
+      {
+        name: "Запрос счёта-фактуры",
+        templates: [
+          `(Имя агента), добрый день!
+
+По просьбе бухгалтерии просим выставить счёт-фактуру по клиенту:
+Дата СФ:
+Документ об отгрузке: Акт
+Период:
+Сумма:
+Застройщик:
+Юридический адрес:
+ИНН/КПП:
+Номер и дата договора:
+
+Если останутся вопросы, мы поможем. 🤝`,
+          `(Имя агента), добрый день!
+
+Для бухгалтерии требуется счёт-фактура по сделке. Направим реквизиты и параметры ниже — просим оформить документ и прислать его в чат.`,
+          `Добрый день, (Имя агента)!
+
+Просим подготовить счёт-фактуру по клиенту. Если потребуется помощь с заполнением, напишите — подскажем.`
+        ]
+      },
+      {
+        name: "Подписание закрывающих документов",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+Просим подписать закрывающие документы и отправить их в этот чат.
+
+Важно:
+• фото или скан должны быть чёткими и читаемыми;
+• в УПД необходимо заполнить и подписать строки 15 и 18.
+
+Уточните, используете ли вы электронный документооборот?`,
+          `Добрый день, (Имя агента)!
+
+Мы подготовили закрывающие документы. Просим подписать их и отправить скан или фото в чат.
+
+Проверьте качество изображения и заполнение строк 15 и 18 в УПД.`,
+          `Добрый день, (Имя агента)!
+
+Подпишите, пожалуйста, закрывающие документы и пришлите их в чат.
+
+Фото должно быть читаемым, а строки 15 и 18 в УПД — заполнены и подписаны.`
+        ]
+      },
+      {
+        name: "Агент запросил закрывающие",
+        templates: [
+          `(Имя агента), добрый день.
+
+Закрывающие документы готовим после закрытия отчётного периода с застройщиком — обычно это 13–14-й рабочий день месяца.
+
+Как только документы будут подписаны и согласованы, сразу направим их вам.`,
+          `(Имя агента), добрый день.
+
+Закрывающие документы отправляем после закрытия периода застройщиком. Обычно это происходит на 13–14-й рабочий день месяца.
+
+После согласования направим документы в этот чат.`,
+          `(Имя агента), добрый день.
+
+Документы будут готовы после закрытия отчётного периода у застройщика — ориентировочно на 13–14-й рабочий день месяца.`
+        ]
+      },
+      {
+        name: "Денежные средства не поступили",
+        templates: [
+          `Добрый день, (Имя агента)!
+
+К сожалению, денежные средства ещё не поступили застройщику.
+
+Если сможете направить пополненный эскроу-счёт или чек об оплате, это поможет ускорить процесс. Следующая сверка с застройщиком состоится в пятницу — вернёмся с обратной связью.`,
+          `Добрый день, (Имя)!
+
+Проверили поступление средств: на счёт застройщика они пока не поступили.
+
+Чтобы ускорить процесс, можно направить выписку по эскроу или чек об оплате. Ближайшая сверка — в пятницу.`,
+          `Добрый день, (Имя)!
+
+Средства от клиента пока не поступили застройщику. Если направите выписку по эскроу или чек об оплате, мы передадим их застройщику и ускорим выплату.`
+        ]
+      },
+      {
+        name: "ЗС Самолёт — постоплата",
+        templates: [
+          `(Имя агента), напоминаем: с застройщиком «Самолёт» действует постоплатная система.
+
+Как только средства поступят на наш счёт, мы сразу запустим выплату вашей комиссии и сообщим вам.`,
+          `(Имя агента), добрый день!
+
+С застройщиком «Самолёт» мы работаем по постоплате. Выплата комиссии происходит после поступления средств от застройщика.
+
+Как только деньги поступят, сразу сообщим и проведём выплату.`,
+          `(Имя агента), добрый день!
+
+Выплата комиссии по сделкам с застройщиком «Самолёт» выполняется после поступления средств от застройщика на наш расчётный счёт.`
+        ]
+      },
+      {
+        name: "Доплата проведена",
+        templates: [
+          `(Имя), добрый день!
+
+Доплата по клиенту (Имя клиента) проведена. Средства уже должны быть на вашем счёте.
+
+Благодарим за сотрудничество!`,
+          `Добрый день, (Имя)!
+
+Информируем о доплате по клиенту (Имя клиента). Средства переведены, просим проверить баланс.`,
+          `(Имя), добрый день!
+
+Доплата по клиенту (Имя клиента) поступила. Просим проверить зачисление средств на счёт.`
+        ]
+      }
+    ]
+  }
+};
+
+</script>
 <script>
 (function () {
   const switcher = document.querySelector('.main-switch');
@@ -3582,7 +4458,7 @@
   const cards = Array.from(document.querySelectorAll('.instruction-card'));
   const empty = document.querySelector('.instructions-empty');
   const instructionCategories = Array.from(document.querySelectorAll('[data-instruction-category]'));
-  const instructionsContent = document.querySelector('.instructions-content');
+  const instructionPanes = Array.from(document.querySelectorAll('[data-instruction-pane]'));
 
   function activateMain(target, save = true) {
     const selected = target === 'instructions' ? 'instructions' : 'flow';
@@ -3618,17 +4494,175 @@
 
   instructionCategories.forEach((category) => {
     category.addEventListener('click', () => {
-      const showContent = category.dataset.instructionCategory === 'work';
+      const selected = category.dataset.instructionCategory;
       instructionCategories.forEach((item) => {
         const active = item === category;
         item.classList.toggle('active', active);
         item.setAttribute('aria-pressed', String(active));
       });
-      if (instructionsContent) instructionsContent.hidden = !showContent;
+      instructionPanes.forEach((pane) => {
+        pane.hidden = pane.dataset.instructionPane !== selected;
+      });
+      localStorage.setItem('work-base-instruction-category', selected);
     });
   });
 
+  const savedInstructionCategory = localStorage.getItem('work-base-instruction-category') || 'work';
+  const savedInstructionButton = instructionCategories.find((item) => item.dataset.instructionCategory === savedInstructionCategory);
+  if (savedInstructionButton) savedInstructionButton.click();
+
   activateMain(localStorage.getItem('work-base-section') || 'flow', false);
+})();
+
+(function () {
+  const source = window.COMMUNICATION_TEMPLATE_DATA;
+  if (!source || !source.stages) return;
+
+  const stageRoot = document.getElementById('communication-stages');
+  const topicRoot = document.getElementById('communication-topics');
+  const variantRoot = document.getElementById('communication-variants');
+  const regionSelect = document.getElementById('communication-region');
+  const searchInput = document.getElementById('communication-search');
+  const templateArea = document.getElementById('communication-template-area');
+  const templateTitle = document.getElementById('communication-template-title');
+  const templateText = document.getElementById('communication-template-text');
+  const copyButton = document.getElementById('communication-copy');
+  const emptyState = document.getElementById('communication-empty');
+  if (!stageRoot || !topicRoot || !variantRoot || !templateArea || !templateText) return;
+
+  const stages = Object.keys(source.stages);
+  let currentStage = stages[0];
+  let currentTopic = 0;
+  let currentVariant = 0;
+
+  function availableTopics() {
+    const region = regionSelect.value;
+    const query = searchInput.value.trim().toLowerCase();
+    return (source.stages[currentStage] || []).filter((topic) => {
+      if (topic.region && topic.region !== region) return false;
+      if (topic.requiresRegion && !region) return false;
+      if (!query) return true;
+      return topic.name.toLowerCase().includes(query) ||
+        topic.templates.some((template) => template.toLowerCase().includes(query));
+    });
+  }
+
+  function displayText(topic, variantIndex) {
+    let text = topic.templates[variantIndex] || '';
+    if (topic.appendRegionLink) {
+      const link = source.regionFileLinks[regionSelect.value] || '';
+      text += link;
+    }
+    return text;
+  }
+
+  function renderStages() {
+    stageRoot.innerHTML = '';
+    stages.forEach((stage) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'communication-stage-button' + (stage === currentStage ? ' active' : '');
+      button.textContent = stage;
+      button.setAttribute('aria-pressed', String(stage === currentStage));
+      button.addEventListener('click', () => {
+        currentStage = stage;
+        currentTopic = 0;
+        currentVariant = 0;
+        renderAll();
+      });
+      stageRoot.appendChild(button);
+    });
+  }
+
+  function renderTopics() {
+    const topics = availableTopics();
+    topicRoot.innerHTML = '';
+    if (currentTopic >= topics.length) currentTopic = 0;
+
+    topics.forEach((topic, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'communication-topic-button' + (index === currentTopic ? ' active' : '');
+      button.textContent = topic.name;
+      button.setAttribute('aria-pressed', String(index === currentTopic));
+      button.addEventListener('click', () => {
+        currentTopic = index;
+        currentVariant = 0;
+        renderTopics();
+        renderTemplate();
+      });
+      topicRoot.appendChild(button);
+    });
+
+    emptyState.hidden = topics.length > 0;
+    templateArea.hidden = topics.length === 0;
+    return topics;
+  }
+
+  function renderTemplate() {
+    const topics = availableTopics();
+    const topic = topics[currentTopic];
+    if (!topic) {
+      templateArea.hidden = true;
+      return;
+    }
+
+    if (currentVariant >= topic.templates.length) currentVariant = 0;
+    variantRoot.innerHTML = '';
+    topic.templates.forEach((template, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'communication-variant-button' + (index === currentVariant ? ' active' : '');
+      button.textContent = topic.labels && topic.labels[index] ? topic.labels[index] : `Вариант ${index + 1}`;
+      button.setAttribute('aria-pressed', String(index === currentVariant));
+      button.addEventListener('click', () => {
+        currentVariant = index;
+        renderTemplate();
+      });
+      variantRoot.appendChild(button);
+    });
+
+    templateTitle.textContent = `${currentStage} · ${topic.name}`;
+    templateText.textContent = displayText(topic, currentVariant);
+    templateArea.hidden = false;
+  }
+
+  function renderAll() {
+    renderStages();
+    renderTopics();
+    renderTemplate();
+  }
+
+  regionSelect.addEventListener('change', () => {
+    currentTopic = 0;
+    currentVariant = 0;
+    renderTopics();
+    renderTemplate();
+  });
+
+  searchInput.addEventListener('input', () => {
+    currentTopic = 0;
+    currentVariant = 0;
+    renderTopics();
+    renderTemplate();
+  });
+
+  copyButton.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(templateText.textContent);
+      copyButton.textContent = '✓ Скопировано';
+      copyButton.classList.add('copied');
+      setTimeout(() => {
+        copyButton.textContent = '📋 Копировать';
+        copyButton.classList.remove('copied');
+      }, 1600);
+    } catch (error) {
+      copyButton.textContent = 'Выделите текст вручную';
+      setTimeout(() => { copyButton.textContent = '📋 Копировать'; }, 1800);
+    }
+  });
+
+  renderAll();
 })();
 
 (function () {
@@ -3672,6 +4706,10 @@
       tabs[next].focus();
       activate(tabs[next].dataset.target, false);
     });
+  });
+
+  document.querySelectorAll('[data-go-to-flow]').forEach((button) => {
+    button.addEventListener('click', () => activate(button.dataset.goToFlow, true));
   });
 
   const fixTabs = Array.from(document.querySelectorAll('.fix-subtab'));
